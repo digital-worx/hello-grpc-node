@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.hello";
+option java_outer_classname = "HelloProto";
+
+package hello;
+
+// Service definition
+service Hello {
+  rpc GetStatus (Status) returns (StatusReply) {}
+  rpc HelloServer (HelloRequest) returns (HelloReply) {}
+}
+
+message Status {}
+
+message StatusReply {
+  string status = 1;
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}
