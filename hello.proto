@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/api/annotations.proto";
+
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.hello";
 option java_outer_classname = "HelloProto";
@@ -8,7 +10,12 @@ package hello;
 
 // Service definition
 service Hello {
-  rpc GetStatus (Status) returns (StatusReply) {}
+  rpc GetStatus (Status) returns (StatusReply) {
+     option (google.api.http) = {
+      get: "/hello.Hello/getStatus"
+    };
+
+  }
   rpc HelloServer (HelloRequest) returns (HelloReply) {}
 }
 
