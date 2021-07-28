@@ -35,6 +35,8 @@ node server.js
 node client.js
 ```
 
+You can also test it using [Hello gRPC web client](https://github.com/digital-worx/hello-grpc-react).
+
 If you want to access the RPCs of the gRPC server similar to REST api endpoints than you will have to install a proxy server. It will accept REST api request and forward them as gRPC request to the server. We have used [envoy](https://www.envoyproxy.io/) as a proxy. Follow their extensive [documentation](https://www.envoyproxy.io/docs) for installation.
 
 Once you have installed the envoy, you can [envoy config](envoy-v3.yaml) file to start and configure the instance. The following command shows how it is run on ubuntu.
