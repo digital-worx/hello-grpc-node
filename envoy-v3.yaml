@@ -38,7 +38,7 @@ static_resources:
                   - name: envoy.filters.http.grpc_json_transcoder
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
-                      proto_descriptor: "generated/hello.pb"
+                      proto_descriptor: "hello.pb"
                       services: ["hello.Hello"]
                       print_options:
                         add_whitespace: true

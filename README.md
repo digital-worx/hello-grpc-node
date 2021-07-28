@@ -1,6 +1,6 @@
-# Hello GRPC Server
+# Hello gRPC Server
 
-It is a simple GRPC server written in node.js.
+It is a simple gRPC server written in node.js.
 
 ## Prerequisite
 
@@ -35,7 +35,7 @@ node server.js
 node client.js
 ```
 
-If you want to access the RPCs of the GRPC server similar to REST api endpoints than you will have to install a proxy server. It will accept REST api request and forward them as GRPC request to the server. We have used [envoy](https://www.envoyproxy.io/) as a proxy. Follow their extensive [documentation](https://www.envoyproxy.io/docs) for installation.
+If you want to access the RPCs of the gRPC server similar to REST api endpoints than you will have to install a proxy server. It will accept REST api request and forward them as gRPC request to the server. We have used [envoy](https://www.envoyproxy.io/) as a proxy. Follow their extensive [documentation](https://www.envoyproxy.io/docs) for installation.
 
 Once you have installed the envoy, you can [envoy config](envoy-v3.yaml) file to start and configure the instance. The following command shows how it is run on ubuntu.
 
@@ -63,11 +63,11 @@ On the envoy proxy instance [gRPC-JSON transcoder](https://www.envoyproxy.io/doc
 - name: envoy.filters.http.grpc_json_transcoder
   typed_config:
     "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
-    proto_descriptor: "generated/hello.pb"
+    proto_descriptor: "hello.pb"
     services: ["hello.Hello"]
 ```
 
-The [generated](generated) directory contains the [hello.pb](hello.pb) file. If you make changes in [hello.proto](hello.proto) than `hello.pb` must be regenerated. Follow the following documentation.
+If you make changes in [hello.proto](hello.proto) than `hello.pb` must be regenerated. It is done using [protocol compiler](https://github.com/protocolbuffers/protobuf#protocol-compiler-installation). Follow the following documentation.
 
 ```
 sudo apt update
@@ -75,7 +75,7 @@ sudo apt install protobuf-compiler
 git clone https://github.com/googleapis/googleapis
 export GOOGLEAPIS_DIR=<your-local-googleapis-folder>
 cd hello-grpc-node
-protoc -I. -I$GOOGLEAPIS_DIR --include_imports --include_source_info --descriptor_set_out=generated/hello.pb ./hello.proto
+protoc -I. -I$GOOGLEAPIS_DIR --include_imports --include_source_info --descriptor_set_out=hello.pb ./hello.proto
 ```
 
 ## License
