@@ -31,10 +31,9 @@ node server.js
 
 - Start client
 
-````
 ```bash
 node client.js
-````
+```
 
 If you want to access the RPCs of the GRPC server similar to REST api endpoints than you will have to install a proxy server. It will accept REST api request and forward them as GRPC request to the server. We have used [envoy](https://www.envoyproxy.io/) as a proxy. Follow their extensive [documentation](https://www.envoyproxy.io/docs) for installation.
 
@@ -56,6 +55,27 @@ response
 {
   "status": "server running"
 }
+```
+
+On the envoy proxy instance [gRPC-JSON transcoder](https://www.envoyproxy.io/docs/envoy/v1.18.3/configuration/http/http_filters/grpc_json_transcoder_filter) was used for transcoding. It requires server proto in `.pb` format as shown in the code snippet from `envoy-v3.yaml` below.
+
+```yaml
+- name: envoy.filters.http.grpc_json_transcoder
+  typed_config:
+    "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
+    proto_descriptor: "generated/hello.pb"
+    services: ["hello.Hello"]
+```
+
+The [generated](generated) directory contains the [hello.pb](hello.pb) file. If you make changes in [hello.proto](hello.proto) than `hello.pb` must be regenerated. Follow the following documentation.
+
+```
+sudo apt update
+sudo apt install protobuf-compiler
+git clone https://github.com/googleapis/googleapis
+export GOOGLEAPIS_DIR=<your-local-googleapis-folder>
+cd hello-grpc-node
+protoc -I. -I$GOOGLEAPIS_DIR --include_imports --include_source_info --descriptor_set_out=generated/hello.pb ./hello.proto
 ```
 
 ## License
