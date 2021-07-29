@@ -59,6 +59,18 @@ response
 }
 ```
 
+```bash
+curl -X POST  -H 'content-type: application/json' http://localhost:8080/hello.Hello/helloServer -d '{"name": "rohit"}'
+```
+
+response
+
+```json
+{
+  "message": "Hi rohit, server welcomes you"
+}
+```
+
 On the envoy proxy instance [gRPC-JSON transcoder](https://www.envoyproxy.io/docs/envoy/v1.18.3/configuration/http/http_filters/grpc_json_transcoder_filter) was used for transcoding. It requires server proto in `.pb` format as shown in the code snippet from `envoy-v3.yaml` below.
 
 ```yaml

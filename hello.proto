@@ -16,7 +16,11 @@ service Hello {
     };
 
   }
-  rpc HelloServer (HelloRequest) returns (HelloReply) {}
+  rpc HelloServer (HelloRequest) returns (HelloReply) {
+    option (google.api.http) = {
+      post: "/hello.Hello/helloServer"
+    };
+  }
 }
 
 message Status {}
