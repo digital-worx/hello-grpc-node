@@ -23,16 +23,24 @@ cd hello-grpc-node
 npm install
 ```
 
+- generate ssl certificate if you want to secure grpc server
+
+```
+./gen-cert.sh
+```
+
+It will generate CA, server and client certficates.
+
 - Start server
 
 ```bash
-node server.js
+npm start
 ```
 
 - Start client
 
 ```bash
-node client.js
+npm run client
 ```
 
 You can also test it using [Hello gRPC web client](https://github.com/digital-worx/hello-grpc-react).

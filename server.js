@@ -1,6 +1,7 @@
 const grpc = require('@grpc/grpc-js');
-
+require('dotenv').config();
 var protoLoader = require('@grpc/proto-loader');
+
 var packageDefinition = protoLoader.loadSync(
   './hello.proto',
   {
@@ -40,15 +41,28 @@ server.addService(helloProto.Hello.service, {
   }
 });
 
-server.bindAsync(
-  '0.0.0.0:50051',
-  grpc.ServerCredentials.createInsecure(),
-  (err, port) => {
-    if (err != null) {
-      console.error(err);
-      return;
+if (process.env.NODE_ENV === 'production') {
+  const fs = require('fs');
+  server.bindAsync(
+    'localhost:50051',
+    grpc.ServerCredentials.createSsl(fs.readFileSync('cert/ca.crt'),
+      [{ cert_chain: fs.readFileSync('cert/server.crt'), private_key: fs.readFileSync('cert/server.key') }], true
+    ),
+    (err, port) => {
+      if (err != null) {
+        console.error(err);
+        return;
+      }
+      if (!port)
+        return;
+      server.start();
+      console.log('Server with SSL listening on ', port);
     }
-    console.log('Server listening on ', port);
+  );
+}
+else {
+  server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
     server.start();
-  }
-);
+    console.log("Server without SSL running on 50051")
+  });
+}
